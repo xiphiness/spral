@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { BrowserRouter, Route } from "react-router-dom";
 import classnames from 'classnames';
-import _ from 'lodash';
 import { HeaderBar } from "./lib/header-bar.js"
 import { api } from '/api';
 import { store } from '/store';
@@ -21,12 +21,13 @@ export class Root extends Component {
       <BrowserRouter>
         <div>
         <HeaderBar/>
-        <Route exact path="/~spral" render={ () => {
+        <Route path="/~spral" render={ (props) => {
+          const loc = _.get(props, 'location.pathname', false).split('/').slice(2)
+          console.log('location',loc)
           return (
             <div className="pa3 w-100">
               <h1 className="mt0 f2">spral</h1>
               <p className="lh-copy measure pt3">Counter: {this.state.con}</p>
-              <p className="lh-copy measure pt3">Foo: {4}</p>
               <button onClick={api.conInc}>Increase Counter</button>
               // <p className="lh-copy measure pt3">To get started, edit <code>src/index.js</code> or <code>spral.hoon</code> and <code>|commit %home</code> on your Urbit ship to see your changes.</p>
               // <a className="black no-underline db body-large pt3" href="https://urbit.org/docs">-> Read the docs</a>

@@ -38,6 +38,7 @@
   |=  a=state-zero
   ^-  json
   =,  enjs:format
+  %+  frond  'initial'
   %-  pairs
   ~[['hon' hon.a] ['con' (numb con.a)]]
 ++  hon-jsonify
@@ -49,7 +50,8 @@
   |=  a=@ud
   ^-  json
   =,  enjs:format
-  (frond 'con' (numb a))
+  %+  frond  'update'
+    %+  frond  'con'  (numb a)
 --
 =|  state-zero
 =*  state  -

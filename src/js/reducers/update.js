@@ -4,14 +4,15 @@ import _ from 'lodash';
 export class UpdateReducer {
     reduce(json, state) {
         // let data = _.get(json, 'update', false);
-        console.log('update', json)
-        if (json) {
+        let data = _.get(json, 'update', false);
+        if (data) {
+          console.log('updateR', json)
             // this.reduceInbox(_.get(data, 'inbox', false), state);
-            if(json.con) {
-              this.reduceCon(json.con, state)
+            if(data.con) {
+              this.reduceCon(data.con, state)
             }
-            if(json.hon) {
-              this.reduceHon(json.hon, state)
+            if(data.hon) {
+              this.reduceHon(data.hon, state)
             }
         }
     }

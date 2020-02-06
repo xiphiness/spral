@@ -3,9 +3,9 @@ import _ from 'lodash';
 
 export class ConfigReducer {
     reduce(json, state) {
-        let data = _.get(json, 'spral', false);
-        if (data) {
-            state.inbox = data.inbox;
-        }
+        // let data = _.get(json, 'spral', false);
+        // if (data) {
+        //     state.inbox = data.inbox;
+        // }
     }
 }
