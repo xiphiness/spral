@@ -8,10 +8,10 @@ class UrbitApi {
     this.bindPaths = [];
   }
 
-  bind(path, method, ship = this.authTokens.ship, appl = "%APPNAME%", success, fail) {
+  bind(path, method, ship = this.authTokens.ship, appl = "spral", success, fail) {
     this.bindPaths = _.uniq([...this.bindPaths, path]);
 
-    window.subscriptionId = window.urb.subscribe(ship, appl, path, 
+    window.subscriptionId = window.urb.subscribe(ship, appl, path,
       (err) => {
         fail(err);
       },
@@ -27,10 +27,11 @@ class UrbitApi {
       (err) => {
         fail(err);
       });
+    this.conInc = this.conInc.bind(this);
   }
 
-  %APPNAME%(data) {
-    this.action("%APPNAME%", "json", data);
+  conInc() {
+    this.action("spral", "json", {});
   }
 
   action(appl, mark, data) {
@@ -38,7 +39,7 @@ class UrbitApi {
       window.urb.poke(ship, appl, mark, data,
         (json) => {
           resolve(json);
-        }, 
+        },
         (err) => {
           reject(err);
         });
