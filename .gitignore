@@ -3,4 +3,4 @@ node_modules
 dist
 urbit/app/spral/js
 urbit/app/spral/css
-package.json
+package-lock.json
