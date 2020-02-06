@@ -136,8 +136,8 @@
 |_  bol=bowl:gall
 
 ++  poke-request-file
-  |=  p=path q=wire
-  ^- card
+  |=  p=path  q=wire
+  ^-  card:agent:gall
   [%pass q %arvo %c %warp our.bowl %home ~ %next %x da+now.bowl p]
 ::
 ++  poke-handle-http-request
