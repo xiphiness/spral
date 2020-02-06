@@ -87,3 +87,18 @@ h2 {
   font-family: Inter, sans-serif;
 }
 
+/* rendering filesystem */
+
+.card {
+  flex-wrap:wrap;
+  height:200px;
+  width: 200px;
+  margin:5px;
+  padding: 1px;
+  text-align:center;
+  font-family: Inter, sans-serif;
+}
+
+.card:hover{
+  border: 3px orange solid;
+}
