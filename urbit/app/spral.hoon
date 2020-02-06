@@ -138,7 +138,7 @@
 ++  poke-request-file
   |=  p=path q=wire
   ^- card
-  [%pass q %arvo %c %warp our.bowl %home ~ %next %x da+now.bowl path]
+  [%pass q %arvo %c %warp our.bowl %home ~ %next %x da+now.bowl p]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre
