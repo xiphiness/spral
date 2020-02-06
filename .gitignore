@@ -1,5 +1,5 @@
 node_modules
 .urbitrc
 dist
-app/spral/js
-app/spral/css
+urbit/app/spral/js
+urbit/app/spral/css
