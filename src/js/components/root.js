@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { HeaderBar } from "./lib/header-bar.js"
 import { api } from '/api';
 import { store } from '/store';
+import { FileSystem } from '../lib/filesystem';
 
 export class Root extends Component {
   constructor(props) {
@@ -29,7 +30,9 @@ export class Root extends Component {
               <button onClick={api.conInc}>Increase Counter</button>
               // <p className="lh-copy measure pt3">To get started, edit <code>src/index.js</code> or <code>spral.hoon</code> and <code>|commit %home</code> on your Urbit ship to see your changes.</p>
               // <a className="black no-underline db body-large pt3" href="https://urbit.org/docs">-> Read the docs</a>
-            </div>
+            
+                <FileSystem />
+              </div>
           )}}
         />
         </div>
