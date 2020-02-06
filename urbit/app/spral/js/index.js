@@ -44597,36 +44597,36 @@
 
             class InitialReducer {
                 reduce(json, state) {
-                  console.log('initial', json);
-                  state.con = json.con;
-                  state.hon = json.hon;
-                    // let data = _.get(json, 'initial', false);
+                    let data = lodash.get(json, 'initial', false);
+                    if (data) {
+                      console.log('initialR', json);
+                      state.con = data.con;
+                      state.hon = data.hon;
+                    }
+                }
+            }
+
+            class ConfigReducer {
+                reduce(json, state) {
+                    // let data = _.get(json, 'spral', false);
                     // if (data) {
                     //     state.inbox = data.inbox;
                     // }
                 }
             }
 
-            class ConfigReducer {
-                reduce(json, state) {
-                    let data = lodash.get(json, 'spral', false);
-                    if (data) {
-                        state.inbox = data.inbox;
-                    }
-                }
-            }
-
             class UpdateReducer {
                 reduce(json, state) {
                     // let data = _.get(json, 'update', false);
-                    console.log('update', json);
-                    if (json) {
+                    let data = lodash.get(json, 'update', false);
+                    if (data) {
+                      console.log('updateR', json);
                         // this.reduceInbox(_.get(data, 'inbox', false), state);
-                        if(json.con) {
-                          this.reduceCon(json.con, state);
+                        if(data.con) {
+                          this.reduceCon(data.con, state);
                         }
-                        if(json.hon) {
-                          this.reduceHon(json.hon, state);
+                        if(data.hon) {
+                          this.reduceHon(data.hon, state);
                         }
                     }
                 }
