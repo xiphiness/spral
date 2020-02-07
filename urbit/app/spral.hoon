@@ -140,7 +140,28 @@
 ++  poke-request-file
   |=  [p=path q=wire]
   ^-  card:agent:gall
-  [%pass q %arvo %c %warp our.bol %home ~ %next %x da+now.bol p]
+  =/  rp=(flop p)
+  =/ schema=schematic:ford
+    [%cast [our %home] -.rp [%scry %c %x [our %home] rp]
+  [%pass q %arvo %f %build live=%.n schema]
+
+++  handle-build
+  |=  [==sign-arvo]
+  ^-  (quip card ^state)
+  ?>  ?=([%f %made *] sign-arvo)
+  ?:  ?=(%incomplete -.result.sign-arvo)
+    ???????????????????
+  =/  =build-result:ford  build-result.result.sign-arvo
+  ?:  ?=(%error -.build-result)
+    ???????
+  =/  =cage  (result-to-cage:ford build-result)
+  ?.  ?=(%noun p.cage)
+    ?????????
+  =/  maybe-file (mule |.(!<(type-to-coerce-to-that-matches-mark-in-build q.cage)))
+  ?:  ?=(%| -.maybe-file)
+    ?????
+  ????
+
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre
