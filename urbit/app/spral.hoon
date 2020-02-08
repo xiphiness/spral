@@ -142,18 +142,19 @@
   ^-  card:agent:gall
   =/  rp=(flop p)
   =/ schema=schematic:ford
-    [%cast [our %home] -.rp [%scry %c %x [our %home] rp]
+    [%cast [our %home] %mime [%scry %c %x [our %home] rp]]
   [%pass q %arvo %f %build live=%.n schema]
 
 ++  handle-build
-  |=  [==sign-arvo]
+  |=  [=sign-arvo state=state-zero]
   ^-  (quip card ^state)
+  =,  enjs:format
   ?>  ?=([%f %made *] sign-arvo)
   ?:  ?=(%incomplete -.result.sign-arvo)
-    ???????????????????
+      [[%give %fact `/primary %json !>()]~ state]
   =/  =build-result:ford  build-result.result.sign-arvo
   ?:  ?=(%error -.build-result)
-    ???????
+      [[%give %fact `/primary %json !>()]~ state]
   =/  =cage  (result-to-cage:ford build-result)
   ?.  ?=(%noun p.cage)
     ?????????
