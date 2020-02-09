@@ -33,26 +33,19 @@
 ::
 |%
 +$  card  card:agent:gall
-+$  state-zero  $:  hon=json  con=@ud  ==
++$  state-zero  $:  fil=(map @tas mime)  hon=json  ==
 ++  jsonify
   |=  a=state-zero
   ^-  json
   =,  enjs:format
   %+  frond  'initial'
   %-  pairs
-  ~[['hon' hon.a] ['con' (numb con.a)]]
+  ~[['hon' hon.a] ['fil' fil.a]]
 ++  hon-jsonify
   |=  a=json
   ^-  json
   =,  enjs:format
   (frond 'hon' a)
-++  con-jsonify
-  |=  a=@ud
-  ^-  json
-  =,  enjs:format
-  %+  frond  'update'
-    %+  frond  'con'  (numb a)
---
 =|  state-zero
 =*  state  -
 ^-  agent:gall
@@ -70,7 +63,7 @@
     =/  p  /[(scot %p our.bol)]/home/[(scot %da now.bol)]
     =/  rom  .^((list path) %ct p)
     =/  j  (paths-to-json:hod rom)
-    :_  this(state ^-(state-zero [hon=j con=0]))
+    :_  this(state ^-(state-zero [???]))
     :~  [%pass /spral %agent [our.bol %spral] %watch /spral]
         [%pass / %arvo %e %connect [~ /'~spral'] %spral]
         [%pass /spral %agent [our.bol %launch] %poke launcha]
@@ -79,11 +72,20 @@
     |=  [=mark =vase]
     ^-  (quip card _this)
     ?>  (team:title our.bol src.bol)
-    ?+    mark  :-  [%give %fact `/primary %json !>((con-jsonify +(con)))]~
-          this(con +(con))
+    ?+    mark  (on-arvo:def mark vase)
+        %json
+      =/  jon=json  !<(json vase)
+      =/  [%s act=@tas]  (got:hod jon 'action')
+        ?+  act  (on-arvo:def mark vase)
+          %get-file
+        (handle-poke-request-file:cc (got:hod jon 'value'))
+        ==
         %handle-http-request
       =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
-      :_  this
+      =/  url  (parse-request-line url.request.inbound-request)
+      :_  ?+  site.url  this
+            [%'~spral' %get-file p=path]  this(fil (~(del by fil) (spat p))
+            ==
       %+  give-simple-payload:app  eyre-id
       %+  require-authorization:app  inbound-request
       poke-handle-http-request:cc
@@ -109,7 +111,11 @@
     ^-  (quip card _this)
     ?.  ?=(%bound +<.sign-arvo)
       (on-arvo:def wire sign-arvo)
-    [~ this]
+    ?.  ?=(%file-build -.wire)
+      (on-arvo:def wire sign-arvo)
+    +^  cards  state  (handle-build:cc  sign-arvo)
+    [this cards]
+
   ::
   ++  on-save  on-save:def
   ++  on-load
@@ -118,7 +124,7 @@
     =/  p  /[(scot %p our.bol)]/home/[(scot %da now.bol)]
     =/  rom  .^((list path) %ct p)
     =/  j  (paths-to-json:hod rom)
-    `this(state ^-(state-zero [hon=j con=0]))
+    `this(state ^-(state-zero [fil=*map(@tas json) hon=json]))
   ++  on-leave  on-leave:def
   ++  on-peek
     |=  p=path
@@ -126,8 +132,6 @@
     ?+  p  (on-peek:def p)
         [%x %hon ~]
         ``[%json !>(hon)]
-        [%x %con ~]
-        ``[%atom !>(con.state)]
         [%x %state ~]
         ``[%json !>((jsonify state))]
     ==
@@ -137,32 +141,66 @@
 ::
 |_  bol=bowl:gall
 
-++  poke-request-file
-  |=  [p=path q=wire]
+++  handle-poke-request-file
+  |=  [p=path]
   ^-  card:agent:gall
   =/  rp=(flop p)
   =/ schema=schematic:ford
     [%cast [our %home] %mime [%scry %c %x [our %home] rp]]
-  [%pass q %arvo %f %build live=%.n schema]
+  [%pass [%file-build p] %arvo %f %build live=%.n schema]
 
 ++  handle-build
-  |=  [=sign-arvo state=state-zero]
+  |=  [=sign-arvo =wire]
   ^-  (quip card ^state)
   =,  enjs:format
+  =/  wyr  (spat wire)
   ?>  ?=([%f %made *] sign-arvo)
   ?:  ?=(%incomplete -.result.sign-arvo)
-      [[%give %fact `/primary %json !>()]~ state]
+      =/  tong
+      %+  roll  +.result.sign-arvo
+        |=  [acc=cord item=tank]
+        %-  crip  ^-  tape  :-  acc  :-  '//n'  ~(ram re item)
+      =/  jon
+      %-  pairs  :~
+        ['type' [%s 'file-incomplete']]
+        ['path' [%s wyr]]
+        ['value' [%s tong]]
+      ==
+      [[%give %fact `/primary %json !>(jon)]~ state]
   =/  =build-result:ford  build-result.result.sign-arvo
   ?:  ?=(%error -.build-result)
-      [[%give %fact `/primary %json !>()]~ state]
+      =/  eng  
+      %+  roll  message.build-result
+        |=  [acc=cord item=tank]
+        %-  crip  ^-  tape  :-  acc  :-  '//n'  ~(ram re item)
+      =/  jon
+      %-  pairs  :~
+        ['type' [%s 'file-error']]
+        ['path' [%s wyr]]
+        ['value' [%s eng]]
+      ==
+      [[%give %fact `/primary %json !>(jon)]~ state]
   =/  =cage  (result-to-cage:ford build-result)
   ?.  ?=(%noun p.cage)
-    ?????????
-  =/  maybe-file (mule |.(!<(type-to-coerce-to-that-matches-mark-in-build q.cage)))
-  ?:  ?=(%| -.maybe-file)
-    ?????
-  ????
+      =/  jon
+      %-  pairs  :~
+        ['type' [%s 'ANOMALY']]
+        ['path' [%s wyr]]
+      ==
+      [[%give %fact `/primary %json !>(jon)]~ state]
+  =/  ret  !<(mime +.q.cage))
+  =.  fil  %+  ~(put by fil)  wyr  ret
+      =/  jon
+      %-  pairs  :~
+        ['type' [%s 'file-retrieved']]
+        ['path' [%s wyr]]
+      ==
+      [~[%give %fact `/primary %json !>(jon)] state]
 
+++  mime-response
+  |=  =mime
+  ^-  simple-payload:http
+  [[200 ['content-type' (spat p.mime)]~] `q.mime]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre
@@ -172,6 +210,7 @@
       [%'~spral' %css %index ~]  (css-response:gen style)
       [%'~spral' %js %tile ~]    (js-response:gen tile-js)
       [%'~spral' %js %index ~]   (js-response:gen script)
+      [%'~spral' %get-file p=path] (mime-response (~(get by fil) p))
   ::
       [%'~spral' %img @t *]
     =/  name=@t  i.t.t.site.url
