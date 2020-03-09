@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { store } from "/store";
 
+<script
+	src="https://kit.fontawesome.com/2dfee5d193.js"
+	crossorigin="anonymous"
+></script>;
+
 export class FileSystem extends Component {
 	constructor(props) {
 		super(props);
